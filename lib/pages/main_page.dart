@@ -3,9 +3,14 @@ import 'package:iconsax/iconsax.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
+import 'extension_menu.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -18,10 +23,8 @@ class _HomePageState extends State<HomePage> {
   PlatformFile? platformFile;
   String? selectedItem = 'Выберите расширение';
 
-  List<String> items = [
+  var items = [
     'Выберите расширение',
-    '1',
-    '2',
   ];
 
   void selectFile() async {
@@ -31,6 +34,11 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       file = File(result.files.single.path!);
       platformFile = result.files.single;
+      final _extension = extension(result.files.single.path!);
+      //print(_extension);
+      // TO DO
+      // fix menu
+      //items = extensionMenu(_extension);
     });
   }
 
@@ -50,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             FileDialogWidget(),
             platformFile != null
                 ? Container(
-                    padding: const EdgeInsets.all(40),
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,15 +88,6 @@ class _HomePageState extends State<HomePage> {
                                 ]),
                             child: Row(
                               children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.file(
-                                      file!,
-                                      width: 70,
-                                    )),
-                                const SizedBox(
-                                  width: 10,
-                                ),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -121,8 +120,8 @@ class _HomePageState extends State<HomePage> {
                 : Container(),
             FileExtensionWidget(),
             Container(
-              height: 70,
-              padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: isStretched
                   ? ConvertAndDownloadButton()
                   : LoadingButton(isDownloadingDone),
@@ -133,64 +132,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget LoadingButton(bool isDownloadingDone) {
-    final color = isDownloadingDone ? Colors.green : Colors.blue;
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-        //borderRadius: BorderRadius.circular(30),
-      ),
-      child: Center(
-        child: isDownloadingDone
-            ? Icon(
-                Icons.done,
-                size: 48,
-                color: Colors.white,
-              )
-            : CircularProgressIndicator(
-              strokeWidth: 4,
-                color: Colors.white,
-              ),
-      ),
-    );
-  }
-
-  // ignore: non_constant_identifier_names
-  OutlinedButton ConvertAndDownloadButton() {
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-          shape: const StadiumBorder(),
-          side: const BorderSide(
-            width: 1,
-            color: Colors.blue,
-          )),
-      onPressed: () async{
-        setState(() => buttonState = ButtonState.loading);
-        await Future.delayed(Duration(seconds: 3));
-        setState(() => buttonState = ButtonState.done);
-        await Future.delayed(Duration(seconds: 3));
-        setState(() => buttonState = ButtonState.init);
-      },
-      child: const Text(
-        'Конвертировать и скачать файл',
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.normal,
-          
-        ),
-      ),
-    );
-  }
-
   // ignore: non_constant_identifier_names
   GestureDetector FileDialogWidget() {
     return GestureDetector(
       onTap: selectFile,
       child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 30, 40, 0),
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 20),
           child: DottedBorder(
             borderType: BorderType.RRect,
             radius: const Radius.circular(10),
@@ -216,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Выберите файл',
-                    style: TextStyle(fontSize: 15, color: Colors.black26),
+                    style: TextStyle(fontSize: 20, color: Colors.black26),
                   ),
                 ],
               ),
@@ -249,6 +196,64 @@ class _HomePageState extends State<HomePage> {
             .toList(),
         onChanged: (item) => setState(() => selectedItem = item),
         borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  OutlinedButton ConvertAndDownloadButton() {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+          shape: const StadiumBorder(),
+          side: const BorderSide(
+            width: 1,
+            color: Colors.blue,
+          )),
+      onPressed: () async {
+        if (platformFile != null) {
+          String? outputFile = await FilePicker.platform.saveFile(
+            dialogTitle: 'Выберите, куда вы хотите сохранить файл:',
+            fileName: '1.txt',
+          );
+          setState(() => buttonState = ButtonState.loading);
+          await Future.delayed(const Duration(seconds: 3));
+          setState(() => buttonState = ButtonState.done);
+          await Future.delayed(const Duration(seconds: 3));
+          setState(() => buttonState = ButtonState.init);
+        }
+      },
+      child: const Text(
+        'Конвертировать и скачать файл',
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Widget LoadingButton(bool isDownloadingDone) {
+    final color = isDownloadingDone ? Colors.green : Colors.blue;
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+        //borderRadius: BorderRadius.circular(30),
+      ),
+      child: Center(
+        child: isDownloadingDone
+            ? const Icon(
+                Icons.done,
+                size: 48,
+                color: Colors.white,
+              )
+            : const CircularProgressIndicator(
+                strokeWidth: 4,
+                color: Colors.white,
+              ),
       ),
     );
   }
