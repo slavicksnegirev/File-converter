@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'extension_menu.dart';
+import 'package:flutter/foundation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,180 +49,104 @@ class _HomePageState extends State<HomePage> {
     final isStretched = buttonState == ButtonState.init;
     final isDownloadingDone = buttonState == ButtonState.done;
 
-    if (Platform.isFuchsia ||
-        Platform.isMacOS ||
-        Platform.isLinux ||
-        Platform.isWindows) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Конвертер файлов'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              FileDialogWidget(),
-              platformFile != null
-                  ? Container(
-                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Выбранный файл',
-                            style: TextStyle(
-                              color: Colors.black26,
-                              fontSize: 15,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      offset: Offset(0, 1),
-                                      blurRadius: 3,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          platformFile!.name,
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          '${(platformFile!.size / 1024).ceil()} KB',
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black26),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ))
-                  : Container(),
-              FileExtensionWidget(),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: isStretched
-                    ? ConvertAndDownloadButton()
-                    : LoadingButton(isDownloadingDone),
-              ),
-            ],
-          ),
-        ),
-      );
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android) {
+      return MainWindow(isStretched, isDownloadingDone);
+    } else if (defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS ||
+        defaultTargetPlatform == TargetPlatform.windows) {
+      return MainWindow(isStretched, isDownloadingDone);
     } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Конвертер файлов'),
+      return MainWindow(isStretched, isDownloadingDone);
+    }
+  }
+
+  // ignore: non_constant_identifier_names
+  Scaffold MainWindow(bool isStretched, bool isDownloadingDone) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Конвертер файлов'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            FileDialogWidget(),
+            platformFile != null ? DownloadedFile() : Container(),
+            FileExtensionWidget(),
+            Container(
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+              child: isStretched
+                  ? ConvertAndDownloadButton()
+                  : LoadingButton(isDownloadingDone),
+            ),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              FileDialogWidget(),
-              platformFile != null
-                  ? Container(
-                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
+      ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Container DownloadedFile() {
+    return Container(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Выбранный файл',
+              style: TextStyle(
+                color: Colors.black26,
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(0, 1),
+                        blurRadius: 3,
+                        spreadRadius: 2,
+                      )
+                    ]),
+                child: Row(
+                  children: [
+                    Expanded(
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Выбранный файл',
-                            style: TextStyle(
-                              color: Colors.black26,
-                              fontSize: 15,
-                            ),
+                          Text(
+                            platformFile!.name,
+                            style: const TextStyle(
+                                fontSize: 13, color: Colors.black),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
-                          Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      offset: Offset(0, 1),
-                                      blurRadius: 3,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          platformFile!.name,
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          '${(platformFile!.size / 1024).ceil()} KB',
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black26),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
+                          Text(
+                            '${(platformFile!.size / 1024).ceil()} KB',
+                            style: const TextStyle(
+                                fontSize: 13, color: Colors.black26),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
-                      ))
-                  : Container(),
-              FileExtensionWidget(),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: isStretched
-                    ? ConvertAndDownloadButton()
-                    : LoadingButton(isDownloadingDone),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        ));
   }
 
   // ignore: non_constant_identifier_names
