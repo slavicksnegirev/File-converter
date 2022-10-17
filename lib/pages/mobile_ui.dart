@@ -49,7 +49,7 @@ class MobileLayout extends StatelessWidget {
                           height: 150,
                           decoration: BoxDecoration(
                             color: Colors.indigo.shade50.withOpacity(1.0),
-                            borderRadius: BorderRadius.circular(7),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

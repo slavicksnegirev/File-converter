@@ -8,12 +8,12 @@ part 'file_converter_event.dart';
 part 'file_converter_state.dart';
 
 class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
-    Client client = Client(
+  Client client = Client(
     apiKey:
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNjFmNzQyNzZjODAxNjBmMDUyYTBmMzY1Y2RkNWY2ZjFmYWQyYzNiNWVlN2RhYjAzMTRjNmUxNTQwYzg4ZDRiNDMxYzM5NmFjMWE3MTdjM2IiLCJpYXQiOjE2NjU5MjkyNjIuODcwOTA0LCJuYmYiOjE2NjU5MjkyNjIuODcwOTA1LCJleHAiOjQ4MjE2MDI4NjIuODY4MjcsInN1YiI6IjYwMzMyODkwIiwic2NvcGVzIjpbInVzZXIucmVhZCIsInVzZXIud3JpdGUiLCJ0YXNrLnJlYWQiLCJ0YXNrLndyaXRlIiwid2ViaG9vay5yZWFkIiwid2ViaG9vay53cml0ZSIsInByZXNldC5yZWFkIiwicHJlc2V0LndyaXRlIl19.lvSFkOcQ3fKQgH0a6ZJLkBxLfve1IZpzy3Wy5seeIPELrqDviHllVVnN_3Z7olQNfPJoYCNNxikvcw3eoWc3ZNm6fUY5bYrZGLPpsZ6o2ylf3VoQ4vsRIjwmC-OA5NB--G8EVs3lr02aHNBKEqTglvMvYAzrg9tVeRaJxlcZA1bgpVKsXZcxSykIbFw5_2GgMNZMjIv7Tp4GP4PLIHOhaB2Emw1R_3f2ukh50_FdUuiHw0EwweOjgPtHn3fHTbnut8GFXAYAHCSOMTLUoO9Ed-JxgpmUd0D-Q1fvJJtY-G440VHA-M1jEu8bNkW6keTxVZ89920r2sGl25B5MDdgJpJO40mQMIwuvOFrNDzKN1j1QcCi0uVJUEwu3-lZjtatHaSiJYDXWomosNUqu2M0gsIinS4vWO6-2263O6zRm1BWSm0V7mK-1yjops8FjDBQxzBcS5yPEhneWBzRClTB7pW3BEEOx8OZ2YVK5pOuWin9mmLa-lyNWtLzMv7FRSV_9vadTdI3o0B17u8MOcJEkBXNegYFPzgGp-Ny12DjpwyIdC9K_XY6HPy611eWBh6f7D2KE5EHJwZR_1-5IuSo6OFCSB1RPQArAXBLzw_H1AuRAoiPOaKJ5V-OAYObLRbNoQXDa4bXFhR57FHuRMWkS7r4qDkzwytKQjbOdorTOKs',
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTgwM2JjMjQ1ZWVhZDU0YTUxMGFjNDhiZTEyYmNiNGJmOTg4YjQwYjZkYTJmMWQ3MjI4ZjA5ODI0MWQxMDdmMDEzNTFjNTc4MTU4MzdmYTEiLCJpYXQiOjE2NjYwMjY3MzMuNTg3NTYyLCJuYmYiOjE2NjYwMjY3MzMuNTg3NTY1LCJleHAiOjQ4MjE3MDAzMzMuNTg1MDUxLCJzdWIiOiI2MDMzMjg5MCIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay5yZWFkIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.QiSFLzrfFdQDGbkvWJKRqVOoP8vU_jBqJM-aaqg_fpRNB11k-u2FvjqUqgfBH0QwzuBqgBqIf6zc7hmrYc5NwwvafECpr5AtxuBvGfnRxehnUjeOeqlYsDIuKCF1sUh7bY_F3Q33yLqY-wjUmiJ5at1MFYkpGlLLU75ve1a48vv5F0PekAM17SPVchvtZaEv-1TesM0FjYGCEp71OSACpWXTRCtTGPk3FHRQ6bx7G3E96wthvrwlpwsGYm7DaVBR6U6ZJBtw7AE6c76IvJ-0lDVwW_SS5T9pk2Km3CfRvDp_W5tXBlp1rZANBUnjUapzrAMkoUoX7wpjHjmSmINtIW1ZhFp7JtuP6kBXEuyknoK1zIVlK2Nljz-YxlYb8CJ8UscvXtrSL9Q5X8xcKs_L8Agk_5rPMptf_47EaU5Txs4tniaO7THOyFbPeT6BjyTHi1EHqh2iKfFa1wdfad6f9Lnf25jidrgf4zwRTvziaFD1CMuzfbCb2uafNyL7iReq29k5Ibb1zQNMQTtiJNSYKP-Zy8Zg28Ol8gUHTO0P2M5AP9DNIfoVXvadMhqeEfXgTJWm09U3AWei2-1Rj04uwQPY_FPfxRn63BQJ8KOgV6ALHRDQYZW540u3PlwXXhKsLlUp4y7mno4dqblVYc5UcIIZ1O6A9L68nsLAnFnJrBY',
     baseUrls: BaseUrls.sandbox,
   );
-  
+
   FileConverterBloc() : super(const FileConverterState()) {
     on<FilePickedEvent>(filePicked);
     on<FileExtensionPickedEvent>(extensionPicked);
@@ -42,21 +42,27 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
         if (formats.exception == null) {
           List<String> list = formats.result;
           if (list.isNotEmpty) {
-            ConverterResult result =
-                await client.getConvertGroup(state.chosenFilePath, list.first);
-            if (result.exception == null) {
-            } else {
-              emit(state.copyWith(
-                  exceptionMessage: result.exception!['message']));
+            ConverterResult result = await client.getConvertGroup(
+              state.chosenFilePath,
+              list.first,
+            );
+            if (result.exception != null) {
+              emit(
+                state.copyWith(
+                  exceptionMessage: result.exception!['message'],
+                ),
+              );
               return;
             }
           }
-          emit(state.copyWith(
-            availableExtensions: list,
-            chosenExtension: list.isNotEmpty ? list.first : null,
-            buttonState:
-                list.isNotEmpty ? ButtonState.convert : ButtonState.init,
-          ));
+          emit(
+            state.copyWith(
+              availableExtensions: list,
+              chosenExtension: list.isNotEmpty ? list.first : null,
+              buttonState:
+                  list.isNotEmpty ? ButtonState.convert : ButtonState.init,
+            ),
+          );
         } else {
           emit(state.copyWith(exceptionMessage: formats.exception!['message']));
         }

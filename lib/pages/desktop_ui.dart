@@ -45,8 +45,8 @@ class DesktopLayout extends StatelessWidget {
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade50.withOpacity(1.0),
-                            borderRadius: BorderRadius.circular(7),
+                            color: Colors.blue.shade50.withOpacity(0.75),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +151,7 @@ class DesktopLayout extends StatelessWidget {
                           fontSize: 20,
                           color: Colors.black26,
                         ),
-                      ),
+                      ),                      
                       isExpanded: true,
                       value: state.chosenExtension,
                       items: state.availableExtensions
@@ -163,7 +163,7 @@ class DesktopLayout extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.black26,
-                                  overflow: TextOverflow.ellipsis,
+                                  //overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),

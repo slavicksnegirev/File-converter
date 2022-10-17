@@ -3,7 +3,9 @@ part of 'file_converter_bloc.dart';
 @immutable
 abstract class FileConverterEvent {}
 
-class FilePickedEvent extends FileConverterEvent {}
+class FilePickedEvent extends FileConverterEvent {
+  late final BuildContext context;
+}
 
 class FileExtensionPickedEvent extends FileConverterEvent {
   final String extension;
