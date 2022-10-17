@@ -17,7 +17,7 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
   FileConverterBloc() : super(const FileConverterState()) {
     on<FileConverterEvent>((event, emit) async {
       if (event is FilePickedEvent) {
-        await filePicked;
+        filePicked;
       } else if (event is FileExtensionPickedEvent) {
         await fileExtensionPicked;
       } else if (event is FileDownloadEvent) {
@@ -34,6 +34,7 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
   ) async {
     FilePickerResult? result;
     try {
+      print('yes');
       result = await FilePicker.platform.pickFiles(type: FileType.any);
       if (result != null) {
         emit(state.copyWith(

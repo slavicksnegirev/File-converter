@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:first_task_flutter/pages/desktop_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     } else if (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.macOS ||
         defaultTargetPlatform == TargetPlatform.windows) {
-      return MainWindow(isStretched, isDownloadingDone);
+      return const DesktopUI();
     } else {
       return MainWindow(isStretched, isDownloadingDone);
     }
