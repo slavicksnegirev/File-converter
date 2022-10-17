@@ -16,9 +16,9 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
 
   FileConverterBloc() : super(const FileConverterState()) {
     on<FilePickedEvent>(filePicked);
-    on<FileExtensionPickedEvent>(extensionPicked);
-    on<FileConvertEvent>(convert);
-    on<FileDownloadEvent>(download);
+    on<FileExtensionPickedEvent>(fileExtensionPicked);
+    on<FileConvertEvent>(fileConvert);
+    on<FileDownloadEvent>(fileDownload);
   }
 
   filePicked(
@@ -72,7 +72,7 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
     }
   }
 
-  extensionPicked(
+  fileExtensionPicked(
       FileExtensionPickedEvent event, Emitter<FileConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     ConverterResult result =
@@ -89,7 +89,7 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
     ));
   }
 
-  convert(FileConvertEvent event, Emitter<FileConverterState> emit) async {
+  fileConvert(FileConvertEvent event, Emitter<FileConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
       ConverterResult result = await client.postJob(
@@ -111,7 +111,7 @@ class FileConverterBloc extends Bloc<FileConverterEvent, FileConverterState> {
     }
   }
 
-  download(FileDownloadEvent event, Emitter<FileConverterState> emit) async {
+  fileDownload(FileDownloadEvent event, Emitter<FileConverterState> emit) async {
     emit(state.copyWith(isLoading: true));
     String? directory;
     try {

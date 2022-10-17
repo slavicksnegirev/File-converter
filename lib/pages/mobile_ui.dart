@@ -11,7 +11,6 @@ class MobileLayout extends StatelessWidget {
   Widget build(BuildContext context) {
 
     bool isFileLoaded = false;
-    ButtonState buttonState = ButtonState.init;
     FileConverterBloc fileConverterBloc = FileConverterBloc();
 
     return BlocProvider<FileConverterBloc>(
@@ -183,9 +182,9 @@ class MobileLayout extends StatelessWidget {
                   Container(
                     height: 50,
                     padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                    child: buttonState == ButtonState.init
+                    child: state.buttonState == ButtonState.init
                         ? ConvertAndDownloadButton()
-                        : LoadingButton(buttonState),
+                        : LoadingButton(state.buttonState),
                   ),
 
                   // Center(
