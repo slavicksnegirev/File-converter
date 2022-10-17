@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     } else if (defaultTargetPlatform == TargetPlatform.linux ||
         defaultTargetPlatform == TargetPlatform.macOS ||
         defaultTargetPlatform == TargetPlatform.windows) {
-      return const DesktopUI();
+      return const DesktopLayout();
     } else {
       return MainWindow(isStretched, isDownloadingDone);
     }
@@ -150,6 +150,7 @@ class _HomePageState extends State<HomePage> {
                 )),
           ],
         ));
+  
   }
 
   // ignore: non_constant_identifier_names
