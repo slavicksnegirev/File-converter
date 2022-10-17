@@ -9,7 +9,7 @@ class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key});
   @override
   Widget build(BuildContext context) {
-    
+
     bool isFileLoaded = false;
     ButtonState buttonState = ButtonState.init;
     FileConverterBloc fileConverterBloc = FileConverterBloc();
@@ -22,7 +22,9 @@ class MobileLayout extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Конвертер файлов'),
+              backgroundColor: Colors.indigo,
             ),
+            //backgroundColor: Colors.,
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -41,20 +43,20 @@ class MobileLayout extends StatelessWidget {
                         radius: const Radius.circular(10),
                         dashPattern: const [10, 4],
                         strokeCap: StrokeCap.round,
-                        color: Colors.blue,
+                        color: Colors.indigo,
                         child: Container(
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade50.withOpacity(.3),
-                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.indigo.shade50.withOpacity(1.0),
+                            borderRadius: BorderRadius.circular(7),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Icon(
                                 Iconsax.folder_open,
-                                color: Colors.blue,
+                                color: Colors.indigo,
                                 size: 40,
                               ),
                               SizedBox(
@@ -227,7 +229,7 @@ class MobileLayout extends StatelessWidget {
         shape: const StadiumBorder(),
         side: const BorderSide(
           width: 1,
-          color: Colors.blue,
+          color: Colors.indigo,
         ),
       ),
       onPressed: () async {
@@ -250,6 +252,7 @@ class MobileLayout extends StatelessWidget {
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.normal,
+          color: Colors.indigo,
         ),
       ),
     );
@@ -258,7 +261,7 @@ class MobileLayout extends StatelessWidget {
   // ignore: non_constant_identifier_names
   Widget LoadingButton(ButtonState buttonState) {
     final color =
-        buttonState == ButtonState.download ? Colors.green : Colors.blue;
+        buttonState == ButtonState.download ? Colors.green : Colors.indigo;
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,

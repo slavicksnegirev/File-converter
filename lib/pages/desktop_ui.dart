@@ -45,8 +45,8 @@ class DesktopLayout extends StatelessWidget {
                           width: double.infinity,
                           height: 150,
                           decoration: BoxDecoration(
-                            color: Colors.blue.shade50.withOpacity(.3),
-                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.blue.shade50.withOpacity(1.0),
+                            borderRadius: BorderRadius.circular(7),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
